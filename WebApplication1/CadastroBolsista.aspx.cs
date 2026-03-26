@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebApplication1.Models; // Garante que o C# ache sua classe
 
 namespace WebApplication1
@@ -72,23 +73,55 @@ namespace WebApplication1
         {
             if (listaBolsistas.Count > 0)
             {
-                // 1. Dizemos ao Grid qual é a fonte de dados (nossa lista)
                 gridBolsistas.DataSource = listaBolsistas;
-
-                // 2. O DataBind() "desenha" as linhas da tabela no HTML
                 gridBolsistas.DataBind();
 
                 lblAvisoGrid.Visible = false;
                 gridBolsistas.Visible = true;
+
+                // MOSTRAR OS FILTROS
+                pnlFiltros.Visible = true;
             }
             else
             {
                 lblAvisoGrid.Visible = true;
                 gridBolsistas.Visible = false;
+
+                // ESCONDER OS FILTROS
+                pnlFiltros.Visible = false;
             }
         }
 
+        // 1. FILTRO: Mostra apenas quem tem Sexo == "F"
+        protected void btnFiltrarMulheres_Click(object sender, EventArgs e)
+        {
+            var resultado = listaBolsistas.Where(x => x.Sexo == "F").ToList();
 
+            gridBolsistas.DataSource = resultado;
+            gridBolsistas.DataBind();
 
+            lblMensagem.Text = $"Exibindo {resultado.Count} mulheres encontradas.";
+            lblMensagem.CssClass = "alert alert-info d-block";
+        }
+
+        // 2. ORDENAÇÃO: Organiza a lista por nome
+        protected void btnOrdemAlfabetica_Click(object sender, EventArgs e)
+        {
+            var resultado = listaBolsistas.OrderBy(x => x.Nome).ToList();
+
+            gridBolsistas.DataSource = resultado;
+            gridBolsistas.DataBind();
+
+            lblMensagem.Text = "Lista organizada por ordem alfabética.";
+            lblMensagem.CssClass = "alert alert-secondary d-block";
+        }
+
+        // 3. RESET: Volta a exibir a lista original completa
+        protected void btnVerTodos_Click(object sender, EventArgs e)
+        {
+            AtualizarGrid();
+            lblMensagem.Text = "Exibindo lista completa.";
+            lblMensagem.CssClass = "alert alert-light d-block border";
+        }
     }
 }

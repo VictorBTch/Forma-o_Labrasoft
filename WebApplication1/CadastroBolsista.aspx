@@ -51,8 +51,23 @@
 
                 </div>
                 <hr />
+                
                 <div class="mt-5">
                     <h3 class="text-secondary">📋 Lista de Bolsistas Cadastrados</h3>
+                    <asp:Panel ID="pnlFiltros" runat="server" Visible="false">
+                        <div class="mt-4 mb-2 d-flex justify-content-between align-items-center">                        
+                            <div>
+                                <asp:Button ID="btnFiltrarMulheres" runat="server" Text="👩 Filtrar Mulheres" 
+                                    CssClass="btn btn-outline-info btn-sm" OnClick="btnFiltrarMulheres_Click" />
+            
+                                <asp:Button ID="btnOrdemAlfabetica" runat="server" Text="AZ Ordem Alfabética" 
+                                    CssClass="btn btn-outline-dark btn-sm" OnClick="btnOrdemAlfabetica_Click" />
+                
+                                <asp:Button ID="btnVerTodos" runat="server" Text="Mostrar Todos" 
+                                    CssClass="btn btn-link btn-sm text-muted" OnClick="btnVerTodos_Click" />
+                            </div>
+                        </div>
+                    </asp:Panel>
     
                     <asp:GridView ID="gridBolsistas" runat="server" 
                         CssClass="table table-hover table-striped border" 

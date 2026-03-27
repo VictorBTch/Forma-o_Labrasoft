@@ -7,8 +7,6 @@ namespace WebApplication1
 {
     public partial class CadastroBolsista : System.Web.UI.Page
     {
-
-        private static List<Bolsista> listaBolsistas = new List<Bolsista>();
         protected void Page_Load(object sender, EventArgs e)
         {
             // Na primeira vez que a página carrega, podemos querer exibir a lista 
@@ -31,7 +29,7 @@ namespace WebApplication1
                 novo.DataNascimento = DateTime.Parse(txtDataNasc.Text);
 
                 // 2. ADICIONAR NA LISTA ESTÁTICA
-                listaBolsistas.Add(novo);
+                Repositorio.ListaBolsistas.Add(novo);
 
                 // 3. Limpar os campos para o próximo cadastro
                 LimparCampos();
@@ -71,6 +69,7 @@ namespace WebApplication1
 
         private void AtualizarGrid()
         {
+            var listaBolsistas = Repositorio.ListaBolsistas;
             if (listaBolsistas.Count > 0)
             {
                 gridBolsistas.DataSource = listaBolsistas;
@@ -95,6 +94,7 @@ namespace WebApplication1
         // 1. FILTRO: Mostra apenas quem tem Sexo == "F"
         protected void btnFiltrarMulheres_Click(object sender, EventArgs e)
         {
+            var listaBolsistas = Repositorio.ListaBolsistas;
             var resultado = listaBolsistas.Where(x => x.Sexo == "F").ToList();
 
             gridBolsistas.DataSource = resultado;
@@ -107,6 +107,7 @@ namespace WebApplication1
         // 2. ORDENAÇÃO: Organiza a lista por nome
         protected void btnOrdemAlfabetica_Click(object sender, EventArgs e)
         {
+            var listaBolsistas = Repositorio.ListaBolsistas;
             var resultado = listaBolsistas.OrderBy(x => x.Nome).ToList();
 
             gridBolsistas.DataSource = resultado;

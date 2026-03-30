@@ -50,7 +50,7 @@
                         CssClass="mt-2 btn btn-outline-secondary btn-lg btn-block" OnClick="btnLimpar_Click" />
 
                 </div>
-                <hr />
+                <hr />                
                 
                 <div class="mt-5">
                     <h3 class="text-secondary">📋 Lista de Bolsistas Cadastrados</h3>
@@ -64,7 +64,7 @@
                                     CssClass="btn btn-outline-dark btn-sm" OnClick="btnOrdemAlfabetica_Click" />
                 
                                 <asp:Button ID="btnVerTodos" runat="server" Text="Mostrar Todos" 
-                                    CssClass="btn btn-link btn-sm text-muted" OnClick="btnVerTodos_Click" />
+                                    CssClass="btn btn-link btn-sm text-muted" OnClick="btnVerTodos_Click" />                               
                             </div>
                         </div>
                     </asp:Panel>

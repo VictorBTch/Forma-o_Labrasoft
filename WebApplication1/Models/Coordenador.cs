@@ -7,7 +7,6 @@ namespace WebApplication1.Models
 {
     public class Coordenador
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public string CPF { get; set; }
         public string Titulacao { get; set; } // Ex: Mestre, Doutor, Pós-Doc

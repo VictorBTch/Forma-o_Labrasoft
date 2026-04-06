@@ -4,7 +4,6 @@ namespace WebApplication1.Models
 {
     public class Bolsista
     {
-        public int Id { get; set; }
         public string Nome { get; set; }
         public string Matricula { get; set; }
         public string CPF { get; set; }

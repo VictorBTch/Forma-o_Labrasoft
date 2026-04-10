@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BolsistaExemplo.aspx" />
+    <Content Include="CadastroBolsista.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web\Formulario.html" />
   </ItemGroup>
@@ -78,6 +79,13 @@
     </Compile>
     <Compile Include="BolsistaExemplo.aspx.designer.cs">
       <DependentUpon>BolsistaExemplo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CadastroBolsista.aspx.cs">
+      <DependentUpon>CadastroBolsista.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CadastroBolsista.aspx.designer.cs">
+      <DependentUpon>CadastroBolsista.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\Bolsista.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

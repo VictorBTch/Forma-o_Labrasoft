@@ -8,6 +8,14 @@
     <asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
+    <nav>
+    <a href="BolsistaExemplo.aspx">
+     Bolsista_Exemplo  
+    </a>
+    <a href="CadastroBolsista.aspx">
+    Bolsista_Cadastro
+    </a>
+    </nav>
     <form id="form1" runat="server">
         <header>
             <h1>Gestão de Bolsistas</h1>

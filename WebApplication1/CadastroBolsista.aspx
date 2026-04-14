@@ -50,7 +50,45 @@
                         CssClass="mt-2 btn btn-outline-secondary btn-lg btn-block" OnClick="btnLimpar_Click" />
 
                 </div>
+           
                 <hr />
+                <div class="d-flex justify-content-between align-items-start">
+
+                        <div>
+                            <asp:Button 
+                                ID="BtnOrdenarLista" 
+                                runat="server" 
+                                Text="Ordenar por Nome" 
+                                CssClass="btn btn-primary"
+                                OnClick="BtnOrdenarLista_Click" />
+
+                        </div>
+
+                        <div class="d-flex flex-column align-items-end">
+                            <asp:Button 
+                                ID="BtnFiltrarSexo" 
+                                runat="server" 
+                                Text="Filtrar por Sexo" 
+                                CssClass="btn btn-success mb-2"
+                                OnClick="BtnFiltrarSexo_Click" />
+
+                            <asp:RadioButtonList 
+                                ID="rbFiltroSexo" 
+                                runat="server" 
+                                RepeatDirection="Horizontal"
+                                CssClass="btn-group"
+                                RepeatLayout="Flow">
+                                
+
+                                <asp:ListItem Text="Masculino" Value="M" />
+                                <asp:ListItem Text="Feminino" Value="F" />
+                                <asp:ListItem Text="Outro" Value="O" />
+                            </asp:RadioButtonList>
+                        </div>
+
+                    </div>
+
+                </div>
                 <div class="mt-5">
                     <h3 class="text-secondary">📋 Lista de Bolsistas Cadastrados</h3>
     

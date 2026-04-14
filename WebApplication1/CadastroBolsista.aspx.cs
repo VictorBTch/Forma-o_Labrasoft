@@ -108,5 +108,25 @@ namespace WebApplication1
                 gridBolsistas.Visible = false;
             }
         }
+    
+        protected void BtnOrdenarLista_Click(object sender, EventArgs e)
+        { 
+            var ordenar = listaBolsistas.OrderBy(x => x.Nome).ToList();
+            
+            gridBolsistas.DataSource = ordenar;
+            gridBolsistas.DataBind();
+        }
+
+        protected void BtnFiltrarSexo_Click(object sender, EventArgs ea)
+        {
+            
+            string sexoSelecionado = rbFiltroSexo.SelectedValue;
+            
+                var listaExibicao = listaBolsistas.Where(x => x.Sexo == sexoSelecionado).OrderBy(x => x.Nome).ToList();
+          
+            gridBolsistas.DataSource = listaExibicao;
+            gridBolsistas.DataBind();
+        
+        }
     }
 }

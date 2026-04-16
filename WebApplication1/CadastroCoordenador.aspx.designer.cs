@@ -11,7 +11,7 @@ namespace WebApplication1
 {
 
 
-    public partial class CadastroBolsista
+    public partial class CadastroCoordenador
     {
 
         /// <summary>
@@ -24,15 +24,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtNome;
 
         /// <summary>
-        /// Controle txtMatricula.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMatricula;
-
-        /// <summary>
         /// Controle txtCPF.
         /// </summary>
         /// <remarks>
@@ -42,22 +33,31 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtCPF;
 
         /// <summary>
-        /// Controle txtDataNasc.
+        /// Controle txtAreaAtuacao.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDataNasc;
+        protected global::System.Web.UI.WebControls.TextBox txtAreaAtuacao;
 
         /// <summary>
-        /// Controle ddlSexo.
+        /// Controle txtEmail.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSexo;
+        protected global::System.Web.UI.WebControls.TextBox txtEmail;
+
+        /// <summary>
+        /// Controle ddlTitulacao.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTitulacao;
 
         /// <summary>
         /// Controle btnSalvar.
@@ -87,40 +87,31 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Panel pnlBotoes;
 
         /// <summary>
-        /// Controle BtnOrdenarLista.
+        /// Controle txtFiltrar.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnOrdenarLista;
+        protected global::System.Web.UI.WebControls.TextBox txtFiltrar;
 
         /// <summary>
-        /// Controle BtnFiltrarSexo.
+        /// Controle btnFiltrar.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnFiltrarSexo;
+        protected global::System.Web.UI.WebControls.Button btnFiltrar;
 
         /// <summary>
-        /// Controle rbFiltroSexo.
+        /// Controle gridCoordenador.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rbFiltroSexo;
-
-        /// <summary>
-        /// Controle gridBolsistas.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridBolsistas;
+        protected global::System.Web.UI.WebControls.GridView gridCoordenador;
 
         /// <summary>
         /// Controle lblAvisoGrid.

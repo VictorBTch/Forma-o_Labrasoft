@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebApplication1.Models; // Garante que o C# ache sua classe
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using WebApplication1.Models;
+using System.Net.Mail;
 
 namespace WebApplication1
 {
-    public partial class CadastroBolsista : System.Web.UI.Page
+    public partial class CadastroCoordenador : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
             // Na primeira vez que a página carrega, podemos querer exibir a lista 
@@ -16,34 +19,40 @@ namespace WebApplication1
                 AtualizarGrid();
             }
         }
-
         protected void btnSalvar_Click(object sender, EventArgs e)
         {
             // VERIFICAÇÃO DE SEGURANÇA: Se campos básicos estiverem vazios, para aqui.
             if (string.IsNullOrWhiteSpace(txtNome.Text) ||
-            string.IsNullOrWhiteSpace(txtMatricula.Text) ||
             string.IsNullOrWhiteSpace(txtCPF.Text) ||
-            string.IsNullOrWhiteSpace(txtDataNasc.Text) ||
-            ddlSexo.SelectedIndex <= 0)
+            string.IsNullOrWhiteSpace(txtAreaAtuacao.Text) ||
+            string.IsNullOrWhiteSpace(txtEmail.Text) ||
+            ddlTitulacao.SelectedIndex <= 0)
+            
             {
                 lblMensagem.Text = "⚠️ Por favor, preencha todos os campos corretamente antes de salvar.";
+                lblMensagem.CssClass = "alert alert-warning d-block";
+                return;
+            }
+            if (!EmailValido(txtEmail.Text))
+            {
+                lblMensagem.Text = "⚠️ Por favor, preencha o email corretamente.";
                 lblMensagem.CssClass = "alert alert-warning d-block";
                 return;
             }
             try
             {
                 // 1. Instanciar e preencher o objeto (conforme você já fez)
-                Bolsista novo = new Bolsista();
+                Coordenador novo = new Coordenador();
                 novo.Nome = txtNome.Text;
-                novo.Matricula = txtMatricula.Text;
                 novo.CPF = txtCPF.Text;
-                novo.Sexo = ddlSexo.SelectedValue;
-                novo.DataNascimento = DateTime.Parse(txtDataNasc.Text);
+                novo.AreaAtuacao = txtAreaAtuacao.Text;
+                novo.Titulacao = ddlTitulacao.SelectedValue;
+                novo.Email = txtEmail.Text;
 
                 //1.5 Lógica provisória para não cadastrar o mesmo usuário duas vezes
-                if (Repositorios.ListaBolsistas.Any(b => b.CPF == txtCPF.Text))
+                if (Repositorios.ListaCoordenador.Any(b => b.CPF == txtCPF.Text))
                 {
-                    lblMensagem.Text = "⚠️ Este bolsista já foi cadastrado!";
+                    lblMensagem.Text = "⚠️ Este coordenador já foi cadastrado!";
                     lblMensagem.CssClass = "alert alert-warning d-block";
                     LimparCampos();
                     AtualizarGrid();
@@ -51,13 +60,13 @@ namespace WebApplication1
                 }
 
                 // 2. ADICIONAR NA LISTA ESTÁTICA
-                Repositorios.ListaBolsistas.Add(novo);
+                Repositorios.ListaCoordenador.Add(novo);
 
                 // 3. Limpar os campos para o próximo cadastro
                 LimparCampos();
 
                 // 4. Mensagem de sucesso e atualizar visualização
-                lblMensagem.Text = "Bolsista cadastrado com sucesso!";
+                lblMensagem.Text = "Coordenador cadastrado com sucesso!";
                 lblMensagem.CssClass = "alert alert-success d-block";
 
                 // Chamar o método que atualiza o GridView (veremos abaixo)
@@ -77,60 +86,67 @@ namespace WebApplication1
             lblMensagem.Text = "";
             lblMensagem.CssClass = "";
         }
-
         private void LimparCampos()
         {
             txtNome.Text = "";
-            txtMatricula.Text = "";
             txtCPF.Text = "";
-            txtDataNasc.Text = "";
-            ddlSexo.SelectedIndex = 0;
+            txtAreaAtuacao.Text = "";
+            txtEmail.Text = "";
+            ddlTitulacao.SelectedIndex = 0;
             txtNome.Focus(); // Coloca o cursor de volta no Nome
         }
-
         private void AtualizarGrid()
         {
-            if (Repositorios.ListaBolsistas.Count > 0)
+            if (Repositorios.ListaCoordenador.Count > 0)
             {
                 // 1. Dizemos ao Grid qual é a fonte de dados (nossa lista)
-                gridBolsistas.DataSource = Repositorios.ListaBolsistas;
+                gridCoordenador.DataSource = Repositorios.ListaCoordenador;
 
                 // 2. O DataBind() "desenha" as linhas da tabela no HTML
-                gridBolsistas.DataBind();
+                gridCoordenador.DataBind();
 
                 lblAvisoGrid.Visible = false;
-                gridBolsistas.Visible = true;
+                gridCoordenador.Visible = true;
             
                 pnlBotoes.Visible = true;
             }
             else
             {
                 lblAvisoGrid.Visible = true;
-                gridBolsistas.Visible = false;
+                gridCoordenador.Visible = false;
             
-                pnlBotoes.Visible = false;
+                pnlBotoes.Visible= false;
             }
         }
-    
-        protected void BtnOrdenarLista_Click(object sender, EventArgs e)
-        { 
-            var ordenar = Repositorios.ListaBolsistas.OrderBy(x => x.Nome).ToList();
-            
-            gridBolsistas.DataSource = ordenar;
-            gridBolsistas.DataBind();
-        }
-
-        protected void BtnFiltrarSexo_Click(object sender, EventArgs ea)
+         protected bool EmailValido(string email)
+         {
+            try
+            {
+                var addr = new MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+         }
+        protected void btnFiltrarLista(object sender, EventArgs e)
         {
-            
-            string sexoSelecionado = rbFiltroSexo.SelectedValue;
-            
-                var listaExibicao = Repositorios.ListaBolsistas.Where(x => x.Sexo == sexoSelecionado).OrderBy(x => x.Nome).ToList();
-          
-            gridBolsistas.DataSource = listaExibicao;
-            gridBolsistas.DataBind();
-        
-        }  
+            string filtro = txtFiltrar.Text.ToLower();
+
+            var listaFiltrada = Repositorios.ListaCoordenador.Where(c => c.Nome.ToLower().Contains(filtro) || c.Titulacao.ToLower().Contains(filtro)).ToList();
+
+            if (listaFiltrada.Count > 0)
+            {
+                gridCoordenador.DataSource = listaFiltrada;
+                gridCoordenador.DataBind();
+                lblAvisoGrid.Visible = false;
+            }
+            else
+            {
+                lblAvisoGrid.Text = "Nenhum resultado encontrado.";
+                lblAvisoGrid.Visible = true;
+            }
+        }
     }
-    
 }

@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CadastroBolsista.aspx.cs" Inherits="WebApplication1.CadastroBolsista" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mt-5">
-        <div class="card shadow-sm mx-auto" style="max-width: 550px;">
+        <div class="card shadow-sm mx-auto w-100">
             <div class="card-header bg-primary text-white text-center">
                 <h2 class="mb-0">📝 Cadastro de Bolsista</h2>
             </div>
@@ -52,41 +52,39 @@
                 </div>
            
                 <hr />
-                <div class="d-flex justify-content-between align-items-start">
+                <asp:Panel ID="pnlBotoes" runat="server" CssClass="d-flex justify-content-between align-items-start">
 
-                        <div>
-                            <asp:Button 
-                                ID="BtnOrdenarLista" 
-                                runat="server" 
-                                Text="Ordenar por Nome" 
-                                CssClass="btn btn-primary"
-                                OnClick="BtnOrdenarLista_Click" />
-
-                        </div>
-
-                        <div class="d-flex flex-column align-items-end">
-                            <asp:Button 
-                                ID="BtnFiltrarSexo" 
-                                runat="server" 
-                                Text="Filtrar por Sexo" 
-                                CssClass="btn btn-success mb-2"
-                                OnClick="BtnFiltrarSexo_Click" />
-
-                            <asp:RadioButtonList 
-                                ID="rbFiltroSexo" 
-                                runat="server" 
-                                RepeatDirection="Horizontal"
-                                CssClass="btn-group"
-                                RepeatLayout="Flow">
-                                
-
-                                <asp:ListItem Text="Masculino" Value="M" />
-                                <asp:ListItem Text="Feminino" Value="F" />
-                                <asp:ListItem Text="Outro" Value="O" />
-                            </asp:RadioButtonList>
-                        </div>
-
+                    <div>
+                        <asp:Button 
+                            ID="BtnOrdenarLista" 
+                            runat="server" 
+                            Text="Ordenar por Nome" 
+                            CssClass="btn btn-primary"
+                            OnClick="BtnOrdenarLista_Click" />
                     </div>
+
+                    <div class="d-flex flex-column align-items-end">
+                        <asp:Button 
+                            ID="BtnFiltrarSexo" 
+                            runat="server" 
+                            Text="Filtrar por Sexo" 
+                            CssClass="btn btn-success mb-2"
+                            OnClick="BtnFiltrarSexo_Click" />
+
+                        <asp:RadioButtonList 
+                            ID="rbFiltroSexo" 
+                            runat="server" 
+                            RepeatDirection="Horizontal"
+                            CssClass="btn-group"
+                            RepeatLayout="Flow">
+
+                            <asp:ListItem Text="Masculino" Value="M" />
+                            <asp:ListItem Text="Feminino" Value="F" />
+                            <asp:ListItem Text="Outro" Value="O" />
+                        </asp:RadioButtonList>
+                    </div>
+
+                </asp:Panel>
 
                 </div>
                 <div class="mt-5">
@@ -107,6 +105,4 @@
                     <asp:Label ID="lblMensagem" runat="server" CssClass="h6"></asp:Label>
                 </div>
             </div>
-        </div>
-    </div>
 </asp:Content>

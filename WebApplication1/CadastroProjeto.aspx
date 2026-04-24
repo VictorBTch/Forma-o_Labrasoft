@@ -39,12 +39,12 @@
                     <div class="card-body">
 
                         <div class="mb-3">
-                            <label class="form-label">Coordenador</label>
+                            <label class="form-label font-weight-bold">Coordenador:</label>
                             <asp:DropDownList ID="ddlCoordenador" runat="server" CssClass="form-control" />
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label">Bolsistas</label>
+                            <label class="form-label font-weight-bold">Bolsistas:</label>
                             <asp:ListBox ID="lstBolsistas"
                                 runat="server"
                                 SelectionMode="Multiple"
@@ -80,7 +80,8 @@
 
                 <div class="card-body p-0">
                     <asp:GridView ID="gvProjetos" runat="server"
-                        CssClass="table table-hover table-striped mb-0 align-middle"
+                        CssClass="table table-bordered table-hover mb-0 align-middle"
+                        HeaderStyle="table-light"
                         AutoGenerateColumns="False"
                         GridLines="None"
                         OnRowCommand="gvProjetos_RowCommand"
@@ -133,14 +134,15 @@
 
             <asp:Panel ID="pnlDetalhes" runat="server" Visible="false" CssClass="mt-4 p-3 border rounded bg-light">
 
-                <div class="card shadow-sm">
+                <div class="card shadow-sm mx-auto w-100 mt-0">
 
                     <!-- 🔹 DETALHES DO PROJETO (PRIMEIRO) -->
+                    <div class="card-body p-2">
                     <div class="card-header bg-dark text-white">
                         Detalhes do Projeto
                     </div>
 
-                    <div class="card-body">
+                    
                         <div class="row text-center">
 
                             <div class="col-md-4 mb-3">
@@ -174,11 +176,12 @@
                     </div>
 
                     <!-- 🔹 COORDENADOR (DEPOIS) -->
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-body p-2">
+                    <div class="card-header bg-dark text-white">
                         Coordenador
                     </div>
 
-                    <div class="card-body">
+                    
                         <div class="row">
 
                             <div class="col-md-4 mb-3">
@@ -212,22 +215,51 @@
                     </div>
 
                     <!-- 🔹 BOLSISTAS (POR ÚLTIMO) -->
-                    <div class="card-header bg-secondary text-white">
-                        Bolsistas
-                    </div>
+                    <div class="card-body p-2">
+                        <div class="card-header bg-dark text-white">
+                            Bolsistas
+                        </div>
+                        <!-- 🔴 MENSAGEM -->
+                            <asp:Label ID="lblSemBolsistas" runat="server"
+                                Text="Nenhum bolsista designado ao projeto"
+                                CssClass="alert alert-danger d-block text-center mb-0"
+                                Visible="false" />
 
-                    <div class="card-body">
-                        <asp:GridView ID="gvAlunos" runat="server" CssClass="table table-sm table-striped"></asp:GridView>
-                    </div>
+                        <asp:Repeater ID="rptBolsistas" runat="server">
+                            <ItemTemplate>
+                                <div class="row mx-0 border-bottom py-2 align-items-center">
 
-                </div>
+                                    <div class="col-md-6 fw-semibold">
+                                        <%# Eval("Nome") %>
+                                    </div>
+
+                                    <div class="col-md-4 text-center">
+                                        <span class="badge bg-secondary">
+                                        Matricula: 
+                                        </span>
+                                        <%# Eval("Matricula") %>
+                                    </div>
+
+                                    <div class="col-md-2 text-end">
+                                        <span class="badge bg-secondary">
+                                            <%# Eval("Sexo") %>
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+
+                    </div>
+                    
 
             </asp:Panel>
 
             <asp:Label ID="lblAvisoGrid" runat="server"
-                Text="Nenhum projeto na memória."
-                CssClass="text-muted italic"
-                Visible="false"></asp:Label>
+                Text="📭 Nenhum projeto na memória."
+                CssClass="alert alert-info d-block text-center mt-3 fw-semibold"
+                Visible="false">
+            </asp:Label>
 
         </div> 
        </div>

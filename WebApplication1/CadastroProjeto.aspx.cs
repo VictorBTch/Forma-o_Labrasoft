@@ -16,15 +16,7 @@ namespace WebApplication1
             // Na primeira vez que a página carrega, podemos querer exibir a lista 
             if (!IsPostBack)
             {
-                ddlCoordenador.DataSource = Repositorios.ListaCoordenador;
-                ddlCoordenador.DataTextField = "Nome";
-                ddlCoordenador.DataValueField = "CPF";
-                ddlCoordenador.DataBind();
-
-                lstBolsistas.DataSource = Repositorios.ListaBolsistas;
-                lstBolsistas.DataTextField = "Nome";
-                lstBolsistas.DataValueField = "CPF";
-                lstBolsistas.DataBind();
+                CarregarCoordenadores_E_Bolsistas();
                 AtualizarGrid();
             }
         }
@@ -83,7 +75,7 @@ namespace WebApplication1
                 LimparCampos();
 
                 // 4. Mensagem de sucesso e atualizar visualização
-                lblMensagem.Text = "Coordenador cadastrado com sucesso!";
+                lblMensagem.Text = "Projeto cadastrado com sucesso!";
                 lblMensagem.CssClass = "alert alert-success d-block";
 
                 // Chamar o método que atualiza o GridView (veremos abaixo)
@@ -130,13 +122,21 @@ namespace WebApplication1
             if (e.CommandName == "Detalhar")
             {
                 int index = Convert.ToInt32(e.CommandArgument);
-                var projeto = Repositorios.ListaProjetos[index];
-
-                // 👉 AGORA MOSTRA OS DADOS
-                CarregarDetalhes(projeto);
-
-                // 👉 MOSTRA O PAINEL
-                pnlDetalhes.Visible = true;
+                if (ViewState["ProjetoAberto"] != null && (int)ViewState["ProjetoAberto"] == index)
+                {
+                    pnlDetalhes.Visible = false;
+                    ViewState["ProjetoAberto"] = null;
+                }
+                else
+                {
+                    var projeto = Repositorios.ListaProjetos[index];
+                    // 👉 AGORA MOSTRA OS DADOS
+                    CarregarDetalhes(projeto);
+                    // 👉 MOSTRA O PAINEL
+                    pnlDetalhes.Visible = true;
+                    ViewState["ProjetoAberto"] = index;    
+                }
+            AtualizarTextoBotoes();
             }
         }
         protected void CarregarDetalhes(Projeto projeto)
@@ -152,8 +152,52 @@ namespace WebApplication1
             lblCoordArea.Text = projeto.Coordenador.AreaAtuacao;
 
             // Alunos
-            gvAlunos.DataSource = projeto.Bolsistas;
-            gvAlunos.DataBind();
+            if (projeto.Bolsistas.Count > 0)
+            {
+                rptBolsistas.DataSource = projeto.Bolsistas;
+                rptBolsistas.DataBind();
+                lblSemBolsistas.Visible = false;
+            }
+            else
+            {
+                rptBolsistas.Visible = false;
+                lblSemBolsistas.Visible = true;
+            }
+        }
+        private void AtualizarTextoBotoes()
+        {
+            foreach (GridViewRow row in gvProjetos.Rows)
+            {
+                Button btn = (Button)row.FindControl("btnDetalhar");
+
+                if (btn != null)
+                {
+                    int index = row.RowIndex;
+
+                    if (ViewState["ProjetoAberto"] != null && (int)ViewState["ProjetoAberto"] == index)
+                    {
+                        btn.Text = "Ocultar";
+                        btn.CssClass = "btn btn-danger btn-sm px-3";
+                    }
+                    else
+                    {
+                        btn.Text = "Detalhar";
+                        btn.CssClass = "btn btn-outline-primary btn-sm px-3";
+                    }
+                }
+            }
+        }
+        private void CarregarCoordenadores_E_Bolsistas()
+        {
+            ddlCoordenador.DataSource = Repositorios.ListaCoordenador;
+            ddlCoordenador.DataTextField = "Nome";
+            ddlCoordenador.DataValueField = "CPF";
+            ddlCoordenador.DataBind();
+
+            lstBolsistas.DataSource = Repositorios.ListaBolsistas;
+            lstBolsistas.DataTextField = "Nome";
+            lstBolsistas.DataValueField = "CPF";
+            lstBolsistas.DataBind();
         }
     }
 }         

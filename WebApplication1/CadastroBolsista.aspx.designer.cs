@@ -96,22 +96,40 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button BtnOrdenarLista;
 
         /// <summary>
-        /// Controle BtnFiltrarSexo.
+        /// Controle btnMasculino.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnFiltrarSexo;
+        protected global::System.Web.UI.WebControls.Button btnMasculino;
 
         /// <summary>
-        /// Controle rbFiltroSexo.
+        /// Controle btnFeminino.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButtonList rbFiltroSexo;
+        protected global::System.Web.UI.WebControls.Button btnFeminino;
+
+        /// <summary>
+        /// Controle btnOutro.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOutro;
+
+        /// <summary>
+        /// Controle btnTodos.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnTodos;
 
         /// <summary>
         /// Controle gridBolsistas.
@@ -121,6 +139,15 @@ namespace WebApplication1
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridBolsistas;
+
+        /// <summary>
+        /// Controle lblSemResultados.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSemResultados;
 
         /// <summary>
         /// Controle lblAvisoGrid.

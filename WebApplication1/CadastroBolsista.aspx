@@ -63,25 +63,45 @@
                             OnClick="BtnOrdenarLista_Click" />
                     </div>
 
-                    <div class="d-flex flex-column align-items-end">
-                        <asp:Button 
-                            ID="BtnFiltrarSexo" 
-                            runat="server" 
-                            Text="Filtrar por Sexo" 
-                            CssClass="btn btn-success mb-2"
-                            OnClick="BtnFiltrarSexo_Click" />
+                    <div class="d-flex justify-content-between align-items-center mb-2">
 
-                        <asp:RadioButtonList 
-                            ID="rbFiltroSexo" 
-                            runat="server" 
-                            RepeatDirection="Horizontal"
-                            CssClass="btn-group"
-                            RepeatLayout="Flow">
+                        <div class="mb-3">
 
-                            <asp:ListItem Text="Masculino" Value="M" />
-                            <asp:ListItem Text="Feminino" Value="F" />
-                            <asp:ListItem Text="Outro" Value="O" />
-                        </asp:RadioButtonList>
+                            <!-- Título -->
+                            <div class="fw-bold text-secondary mb-2">
+                                🔍 Filtrar por sexo
+                            </div>
+
+                            <!-- Botões -->
+                            <div class="btn-group">
+
+                                <asp:Button ID="btnMasculino" runat="server"
+                                    Text="Masculino"
+                                    CssClass="btn btn-outline-primary"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="M" />
+
+                                <asp:Button ID="btnFeminino" runat="server"
+                                    Text="Feminino"
+                                    CssClass="btn btn-outline-danger"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="F" />
+
+                                <asp:Button ID="btnOutro" runat="server"
+                                    Text="Outro"
+                                    CssClass="btn btn-outline-secondary"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="O" />
+                                
+                                <asp:Button ID="btnTodos" runat="server"
+                                    Text="Todos"
+                                    CssClass="btn btn-outline-dark"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="T" />
+
+                            </div>
+
+                        </div>
                     </div>
 
                 </asp:Panel>
@@ -96,7 +116,11 @@
                         GridLines="None">
                         <HeaderStyle CssClass="thead-dark" />
                     </asp:GridView>
-
+                        <asp:Label ID="lblSemResultados" runat="server"
+                            CssClass="alert alert-warning mt-3 d-block text-center"
+                            Visible="false">
+                            Nenhum bolsista encontrado para esse filtro.
+                        </asp:Label>
                     <asp:Label ID="lblAvisoGrid" runat="server" Text="Nenhum bolsista na memória." 
                         CssClass="text-muted italic" Visible="false"></asp:Label>
                 </div>

@@ -159,13 +159,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label lblCoordArea;
 
         /// <summary>
-        /// Controle gvAlunos.
+        /// Controle lblSemBolsistas.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvAlunos;
+        protected global::System.Web.UI.WebControls.Label lblSemBolsistas;
+
+        /// <summary>
+        /// Controle rptBolsistas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptBolsistas;
 
         /// <summary>
         /// Controle lblAvisoGrid.

@@ -134,17 +134,25 @@ namespace WebApplication1
         {
             string filtro = txtFiltrar.Text.ToLower();
 
-            var listaFiltrada = Repositorios.ListaCoordenador.Where(c => c.Nome.ToLower().Contains(filtro) || c.Titulacao.ToLower().Contains(filtro)).ToList();
+            var listaFiltrada = Repositorios.ListaCoordenador
+                .Where(c => c.Nome.ToLower().Contains(filtro)
+                         || c.Titulacao.ToLower().Contains(filtro))
+                .ToList();
 
             if (listaFiltrada.Count > 0)
             {
+                gridCoordenador.Visible = true;
                 gridCoordenador.DataSource = listaFiltrada;
                 gridCoordenador.DataBind();
+
                 lblAvisoGrid.Visible = false;
             }
             else
             {
+                gridCoordenador.Visible = false;
+
                 lblAvisoGrid.Text = "Nenhum resultado encontrado.";
+                lblAvisoGrid.CssClass = "alert alert-danger d-block";
                 lblAvisoGrid.Visible = true;
             }
         }

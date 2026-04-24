@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls;
 using WebApplication1.Models; // Garante que o C# ache sua classe
 
 namespace WebApplication1
@@ -120,17 +121,33 @@ namespace WebApplication1
             gridBolsistas.DataBind();
         }
 
-        protected void BtnFiltrarSexo_Click(object sender, EventArgs ea)
+        protected void FiltrarSexo_Click(object sender, EventArgs e)
         {
-            
-            string sexoSelecionado = rbFiltroSexo.SelectedValue;
-            
-                var listaExibicao = Repositorios.ListaBolsistas.Where(x => x.Sexo == sexoSelecionado).OrderBy(x => x.Nome).ToList();
-          
-            gridBolsistas.DataSource = listaExibicao;
-            gridBolsistas.DataBind();
-        
-        }  
+            var btn = (Button)sender;
+            string sexo = btn.CommandArgument;
+
+            var lista = Repositorios.ListaBolsistas;
+
+            // 🔎 FILTRO
+            if (sexo != "T")
+            {
+                lista = lista.Where(b => b.Sexo == sexo).ToList();
+            }
+
+            // 🔔 MOSTRAR / ESCONDER AVISO
+            if (lista.Count == 0)
+            {
+                lblSemResultados.Visible = true;
+                gridBolsistas.DataSource = null;
+                gridBolsistas.DataBind();
+            }
+            else
+            {
+                lblSemResultados.Visible = false;
+                gridBolsistas.DataSource = lista;
+                gridBolsistas.DataBind();
+            }
+        }
     }
     
 }

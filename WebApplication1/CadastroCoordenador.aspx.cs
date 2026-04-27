@@ -7,6 +7,7 @@ namespace WebApplication1
 {
     public partial class CadastroCoordenador : System.Web.UI.Page
     {
+        private Repositorio repo = new Repositorio();
         // Lista estática para manter os dados em memória durante a execução
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -21,15 +22,15 @@ namespace WebApplication1
             try
             {
                 // Criando o objeto usando o novo Model
-                Coordenador novo = new Coordenador();
-                novo.Nome = txtNome.Text;
-                novo.CPF = txtCPF.Text;
-                novo.Titulacao = ddlTitulacao.SelectedValue;
-                novo.AreaAtuacao = txtArea.Text;
-                novo.Email = txtEmail.Text;
+                Coordenador c = new Coordenador();
+                c.Nome = txtNome.Text;
+                c.CPF = txtCPF.Text;
+                c.Titulacao = ddlTitulacao.SelectedValue;
+                c.AreaAtuacao = txtArea.Text;
+                c.Email = txtEmail.Text;
 
                 // 2. ADICIONAR NA LISTA ESTÁTICA
-                Repositorio.ListaCoordenadores.Add(novo);
+                repo.InserirCoordenador(c);
 
                 LimparCampos();
                 lblMensagem.Text = "Coordenador salvo com sucesso!";
@@ -46,7 +47,8 @@ namespace WebApplication1
 
         private void AtualizarGrid()
         {
-            var listaCoordenadores = Repositorio.ListaCoordenadores;
+            
+            var listaCoordenadores = repo.ListarCoordenadores();
             if (listaCoordenadores.Count > 0)
             {
                 gridCoordenadores.DataSource = listaCoordenadores;
@@ -67,6 +69,29 @@ namespace WebApplication1
             txtEmail.Text = "";
             ddlTitulacao.SelectedIndex = 0;
             txtNome.Focus();
-        }        
+        }
+        protected void btnFiltrarLista(object sender, EventArgs e)
+        {
+            string filtro = txtFiltrar.Text;
+
+            var listaFiltrada = repo.FiltrarCoordenadores(filtro);
+
+            if (listaFiltrada.Count > 0)
+            {
+                gridCoordenadores.Visible = true;
+                gridCoordenadores.DataSource = listaFiltrada;
+                gridCoordenadores.DataBind();
+
+                lblAviso.Visible = false;
+            }
+            else
+            {
+                gridCoordenadores.Visible = false;
+
+                lblAviso.Text = "Nenhum resultado encontrado.";
+                lblAviso.CssClass = "alert alert-danger d-block";
+                lblAviso.Visible = true;
+            }
+        }
     }
 }

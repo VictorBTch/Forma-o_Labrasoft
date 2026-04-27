@@ -40,7 +40,7 @@ namespace WebApplication1
                 novo.DataNascimento = DateTime.Parse(txtDataNasc.Text);
 
                 //1.5 Lógica provisória para não cadastrar o mesmo usuário duas vezes
-                if (listaBolsistas.Any(b => b.CPF == txtCPF.Text))
+                if (Repositorio.ListaBolsistas.Any(b => b.CPF == txtCPF.Text))
                 {
                     lblMensagem.Text = "⚠️ Este bolsista já foi cadastrado!";
                     lblMensagem.CssClass = "alert alert-warning d-block";

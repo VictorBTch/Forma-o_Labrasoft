@@ -7,6 +7,7 @@ namespace WebApplication1.Models
 {
     public class Coordenador
     {
+        public int ID { get; set; }
         public string Nome { get; set; }
         public string CPF { get; set; }
         public string Titulacao { get; set; } // Ex: Mestre, Doutor, Pós-Doc
@@ -17,5 +18,5 @@ namespace WebApplication1.Models
         {
             this.Titulacao = "Especialista"; // Valor inicial sugerido
         }
-    }
+    }    
 }

@@ -78,6 +78,42 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button btnLimpar;
 
         /// <summary>
+        /// Controle pnlFiltros.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlFiltros;
+
+        /// <summary>
+        /// Controle btnFiltrarMulheres.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnFiltrarMulheres;
+
+        /// <summary>
+        /// Controle btnOrdemAlfabetica.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOrdemAlfabetica;
+
+        /// <summary>
+        /// Controle btnVerTodos.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVerTodos;
+
+        /// <summary>
         /// Controle gridBolsistas.
         /// </summary>
         /// <remarks>

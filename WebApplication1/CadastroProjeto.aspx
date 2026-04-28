@@ -64,7 +64,7 @@
                             <asp:Button ID="btnVer" runat="server" Text="🔍 Detalhes" 
                                 CssClass="btn btn-info btn-sm" 
                                 CommandName="VerDetalhes" 
-                                CommandArgument='<%# Container.DataItemIndex %>' />
+                                CommandArgument='<%# Eval("ID") %>' />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>

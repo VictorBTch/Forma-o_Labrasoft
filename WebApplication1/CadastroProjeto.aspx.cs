@@ -10,6 +10,7 @@ namespace WebApplication1
 {
     public partial class CadastroProjeto : System.Web.UI.Page
     {
+        Repositorio repo = new Repositorio();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -41,11 +42,9 @@ namespace WebApplication1
             {
                 Projeto p = new Projeto();
 
-                // Atributos de Texto
                 p.Titulo = txtTitulo.Text;
                 p.AreaConhecimento = txtAreaConhecimento.Text;
 
-                // Atributos Financeiros (usando TryParse para evitar erros de digitação)
                 decimal verba, valorBolsa;
                 decimal.TryParse(txtVerba.Text, out verba);
                 decimal.TryParse(txtValorBolsa.Text, out valorBolsa);
@@ -53,24 +52,19 @@ namespace WebApplication1
                 p.VerbaAprovada = verba;
                 p.ValorBolsaIndividual = valorBolsa;
 
-                // Relacionamento com Coordenador
-                string cpfCoord = ddlCoordenador.SelectedValue;
-                p.Responsavel = Repositorio.ListaCoordenadores.FirstOrDefault(c => c.CPF == cpfCoord);
+                // 🔥 AGORA USA ID
+                p.CoordenadorID = Convert.ToInt32(ddlCoordenador.SelectedValue);
 
-                // Relacionamento com Bolsistas (Lista)
-                foreach (ListItem item in lstAlunos.Items)
-                {
-                    if (item.Selected)
-                    {
-                        var aluno = Repositorio.ListaBolsistas.FirstOrDefault(b => b.CPF == item.Value);
-                        if (aluno != null) p.AlunosVinculados.Add(aluno);
-                    }
-                }
+                // 🔥 SALVA NO BANCO
+                repo.InserirProjeto(p);
 
-                // Salvar e atualizar
-                Repositorio.ListaProjetos.Add(p);
+                // (por enquanto ignorando bolsistas no banco)
+
                 LimparCampos();
                 AtualizarGrid();
+
+                lblMensagem.Text = "✅ Projeto salvo com sucesso!";
+                lblMensagem.CssClass = "alert alert-success d-block";
             }
             catch (Exception ex)
             {
@@ -89,9 +83,9 @@ namespace WebApplication1
             lstAlunos.ClearSelection();
         }
 
-        private void AtualizarGrid()
+        public void AtualizarGrid()
         {
-            gridProjetos.DataSource = Repositorio.ListaProjetos;
+            gridProjetos.DataSource = repo.ListarProjetos();
             gridProjetos.DataBind();
         }
 
@@ -99,18 +93,20 @@ namespace WebApplication1
         {
             if (e.CommandName == "VerDetalhes")
             {
-                int index = Convert.ToInt32(e.CommandArgument);
-                var projeto = Repositorio.ListaProjetos[index];
+                int idProjeto = Convert.ToInt32(e.CommandArgument);
 
-                // Preenche campos básicos
+                // 🔥 agora usa o método com JOIN
+                var projeto = repo.DetalharProjetoPorID(idProjeto);
+
+                // Dados básicos
                 litTituloDet.Text = projeto.Titulo;
                 lblCoordDet.Text = projeto.Responsavel?.Nome ?? "Não definido";
-                lblTitDet.Text = projeto.Responsavel?.Titulacao;
+                lblTitDet.Text = projeto.Responsavel?.Titulacao ?? "Não informado";
                 lblVerbaDet.Text = projeto.VerbaAprovada.ToString("C");
-                lblBolsaDet.Text = projeto.ValorBolsaIndividual.ToString("C"); // Novo campo
+                lblBolsaDet.Text = projeto.ValorBolsaIndividual.ToString("C");
                 lblAreaDet.Text = projeto.AreaConhecimento;
 
-                // Preenche o Repeater com a lista de bolsistas
+                // Lista Bolsistas
                 if (projeto.AlunosVinculados != null && projeto.AlunosVinculados.Count > 0)
                 {
                     rptBolsistasDet.DataSource = projeto.AlunosVinculados;

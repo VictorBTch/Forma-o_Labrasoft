@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CadastroBolsista.aspx.cs" Inherits="WebApplication1.CadastroBolsista" %>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mt-5">
-        <div class="card shadow-sm mx-auto" style="max-width: 550px;">
+        <div class="card shadow-sm mx-auto w-100 ">
             <div class="card-header bg-primary text-white text-center">
                 <h2 class="mb-0">📝 Cadastro de Bolsista</h2>
             </div>
@@ -57,8 +57,23 @@
                     <asp:Panel ID="pnlFiltros" runat="server" Visible="false">
                         <div class="mt-4 mb-2 d-flex justify-content-between align-items-center">                        
                             <div>
-                                <asp:Button ID="btnFiltrarMulheres" runat="server" Text="👩 Filtrar Mulheres" 
-                                    CssClass="btn btn-outline-info btn-sm" OnClick="btnFiltrarMulheres_Click" />
+                               <asp:Button ID="btnMasculino" runat="server"
+                                    Text="Masculino"
+                                    CssClass="btn btn-outline-primary"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="M" />
+
+                                <asp:Button ID="btnFeminino" runat="server"
+                                    Text="Feminino"
+                                    CssClass="btn btn-outline-danger"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="F" />
+
+                                <asp:Button ID="btnOutro" runat="server"
+                                    Text="Outro"
+                                    CssClass="btn btn-outline-secondary"
+                                    OnClick="FiltrarSexo_Click"
+                                    CommandArgument="O" />
             
                                 <asp:Button ID="btnOrdemAlfabetica" runat="server" Text="AZ Ordem Alfabética" 
                                     CssClass="btn btn-outline-dark btn-sm" OnClick="btnOrdemAlfabetica_Click" />
@@ -72,9 +87,15 @@
                     <asp:GridView ID="gridBolsistas" runat="server" 
                         CssClass="table table-hover table-striped border" 
                         AutoGenerateColumns="true" 
-                        GridLines="None">
+                        GridLines="None"
+                        OnRowCreated="gridBolsistas_RowCreated">
                         <HeaderStyle CssClass="thead-dark" />
                     </asp:GridView>
+                        <asp:Label ID="lblSemResultados" runat="server"
+                            CssClass="alert alert-warning mt-3 d-block text-center"
+                            Visible="false">
+                            Nenhum bolsista encontrado para esse filtro.
+                        </asp:Label>
 
                     <asp:Label ID="lblAvisoGrid" runat="server" Text="Nenhum bolsista na memória." 
                         CssClass="text-muted italic" Visible="false"></asp:Label>

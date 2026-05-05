@@ -10,29 +10,32 @@ namespace WebApplication1
 {
     public partial class CadastroProjeto : System.Web.UI.Page
     {
-        Repositorio repo = new Repositorio();
+        private Repositorio repo = new Repositorio();
+        
+        private int tamanhoPagina = 6;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 CarregarDadosIniciais();
                 AtualizarGrid();
+                CarregarProjetos();
             }
         }
 
         private void CarregarDadosIniciais()
         {
             // Preenche Coordenadores
-            ddlCoordenador.DataSource = Repositorio.ListaCoordenadores;
+            ddlCoordenador.DataSource = repo.ListarCoordenadores();
             ddlCoordenador.DataTextField = "Nome";
-            ddlCoordenador.DataValueField = "CPF";
+            ddlCoordenador.DataValueField = "ID";
             ddlCoordenador.DataBind();
             ddlCoordenador.Items.Insert(0, new ListItem("Selecione um Coordenador...", ""));
 
             // Preenche Alunos
-            lstAlunos.DataSource = Repositorio.ListaBolsistas;
+            lstAlunos.DataSource = repo.ListarBolsistas();
             lstAlunos.DataTextField = "Nome";
-            lstAlunos.DataValueField = "CPF";
+            lstAlunos.DataValueField = "ID";
             lstAlunos.DataBind();
         }
 
@@ -52,19 +55,26 @@ namespace WebApplication1
                 p.VerbaAprovada = verba;
                 p.ValorBolsaIndividual = valorBolsa;
 
-                // 🔥 AGORA USA ID
                 p.CoordenadorID = Convert.ToInt32(ddlCoordenador.SelectedValue);
 
-                // 🔥 SALVA NO BANCO
-                repo.InserirProjeto(p);
+                // 🔥 ETAPA 1: salva projeto e pega ID
+                int idProjeto = repo.InserirProjeto(p);
 
-                // (por enquanto ignorando bolsistas no banco)
+                // 🔥 ETAPA 2: percorre os selecionados e vincula
+                foreach (ListItem item in lstAlunos.Items)
+                {
+                    if (item.Selected)
+                    {
+                        int bolsistaID = int.Parse(item.Value);
+                        repo.VincularBolsistaProjeto(idProjeto, bolsistaID);
+                    }
+                }
 
                 LimparCampos();
                 AtualizarGrid();
 
-                lblMensagem.Text = "✅ Projeto salvo com sucesso!";
-                lblMensagem.CssClass = "alert alert-success d-block";
+                //lblMensagem.Text = "✅ Projeto salvo!";
+                //lblMensagem.CssClass = "alert alert-success d-block";
             }
             catch (Exception ex)
             {
@@ -85,7 +95,7 @@ namespace WebApplication1
 
         public void AtualizarGrid()
         {
-            gridProjetos.DataSource = repo.ListarProjetos();
+            gridProjetos.DataSource = repo.ListarProjetos(PaginaAtual, 6);
             gridProjetos.DataBind();
         }
 
@@ -128,6 +138,37 @@ namespace WebApplication1
         protected void btnFechar_Click(object sender, EventArgs e)
         {
             pnlDetalhes.Visible = false;
+        }
+
+        private void CarregarProjetos()
+        {
+            var lista = repo.ListarProjetos(PaginaAtual, tamanhoPagina);
+            gridProjetos.DataSource = lista;
+            gridProjetos.DataBind();
+
+            CriarPaginacao();
+        }
+        private void CriarPaginacao()
+        {
+            int total = repo.ContarProjetos();
+            int totalPaginas = (int)Math.Ceiling((double)total / tamanhoPagina);
+
+            rptPaginacao.DataSource = Enumerable.Range(1, totalPaginas);
+            rptPaginacao.DataBind();
+        }
+        protected void rptPaginacao_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "MudarPagina")
+            {
+                int novaPagina = Convert.ToInt32(e.CommandArgument);
+                PaginaAtual = novaPagina;
+                CarregarProjetos();
+            }
+        }
+        public int PaginaAtual
+        {
+            get => ViewState["PaginaAtual"] != null ? (int)ViewState["PaginaAtual"] : 1;
+            set => ViewState["PaginaAtual"] = value;
         }
     }
 }

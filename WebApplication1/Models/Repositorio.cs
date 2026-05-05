@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebApplication1.Models
 {
@@ -222,42 +223,66 @@ namespace WebApplication1.Models
             }
         }
 
-        public List<Projeto> ListarProjetos()
+        public List<Projeto> ListarProjetos(int pagina, int tamanhoPagina)
         {
             List<Projeto> lista = new List<Projeto>();
 
             using (SqlConnection conexao = new SqlConnection(sqlConexao))
             {
-                string query = @"SELECT P.ID, P.Titulo, P.AreaConhecimento, P.VerbaAprovada, P.ValorBolsaIndividual, P.CoordenadorID, C.Nome AS NomeCoordenador FROM Projeto P INNER JOIN Coordenador C ON P.CoordenadorID = C.ID";
+                string query = @"
+                SELECT 
+                    P.ID,
+                    P.Titulo,
+                    P.AreaConhecimento,
+                    C.Nome AS Responsavel,
+                    P.VerbaAprovada
+                FROM Projeto P
+                INNER JOIN Coordenador C ON P.CoordenadorID = C.ID
+                ORDER BY P.ID
+                OFFSET @Offset ROWS
+                FETCH NEXT @PageSize ROWS ONLY";
 
                 SqlCommand cmd = new SqlCommand(query, conexao);
 
+                int offset = (pagina - 1) * tamanhoPagina;
+
+                cmd.Parameters.AddWithValue("@Offset", offset);
+                cmd.Parameters.AddWithValue("@PageSize", tamanhoPagina);
+
                 conexao.Open();
-                SqlDataReader leitor = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                while (leitor.Read())
+                while (reader.Read())
                 {
-                    Projeto p = new Projeto();
-
-                    p.ID = Convert.ToInt32(leitor["ID"]);
-                    p.Titulo = leitor["Titulo"].ToString();
-                    p.AreaConhecimento = leitor["AreaConhecimento"].ToString();
-                    p.VerbaAprovada = Convert.ToDecimal(leitor["VerbaAprovada"]);
-                    p.ValorBolsaIndividual = Convert.ToDecimal(leitor["ValorBolsaIndividual"]);
-                    p.CoordenadorID = Convert.ToInt32(leitor["CoordenadorID"]);
-
-                    // 🔥 preenchendo o objeto Coordenador (opcional, mas útil)
-                    p.Responsavel = new Coordenador
+                    lista.Add(new Projeto
                     {
-                        Nome = leitor["NomeCoordenador"].ToString()
-                    };
-
-                    lista.Add(p);
+                        ID = Convert.ToInt32(reader["ID"]),
+                        Titulo = reader["Titulo"].ToString(),
+                        AreaConhecimento = reader["AreaConhecimento"].ToString(),
+                        VerbaAprovada = Convert.ToDecimal(reader["VerbaAprovada"]),
+                        Responsavel = new Coordenador
+                        {
+                            Nome = reader["Responsavel"].ToString()
+                        }
+                    });
                 }
             }
 
             return lista;
         }
+        public int ContarProjetos()
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = "SELECT COUNT(*) FROM Projeto";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                conexao.Open();
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
         public Projeto DetalharProjetoPorID(int id)
         {
             Projeto p = null;
@@ -282,7 +307,9 @@ namespace WebApplication1.Models
 
         FROM Projeto P
         INNER JOIN Coordenador C ON P.CoordenadorID = C.ID
-        LEFT JOIN Bolsista B ON B.ProjetoID = P.ID
+        LEFT JOIN ProjetoBolsista PB ON PB.ProjetoID = P.ID
+        LEFT JOIN Bolsista B ON B.ID = PB.BolsistaID
+
         WHERE P.ID = @ID";
 
                 SqlCommand cmd = new SqlCommand(query, conexao);
@@ -328,5 +355,74 @@ namespace WebApplication1.Models
 
             return p;
         }
-    }
+        public void VincularBolsistaProjeto(int projetoID, int bolsistaID)
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        INSERT INTO ProjetoBolsista (ProjetoID, BolsistaID)
+        VALUES (@ProjetoID, @BolsistaID)";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@ProjetoID", projetoID);
+                cmd.Parameters.AddWithValue("@BolsistaID", bolsistaID);
+
+                conexao.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public List<Projeto> ListarProjetosSimples() 
+        {
+            List<Projeto> lista = new List<Projeto>();
+
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+                SELECT 
+                    P.ID,
+                    P.Titulo
+                FROM Projeto P
+                INNER JOIN Coordenador C ON P.CoordenadorID = C.ID
+                ORDER BY P.ID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+                conexao.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    lista.Add(new Projeto
+                    {
+                        ID = Convert.ToInt32(reader["ID"]),
+                        Titulo = reader["Titulo"].ToString(),
+                    });
+                }
+            }
+
+            return lista;
+        }
+        public void InserirDespesa(Despesas d)
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        INSERT INTO Despesa 
+        (Descricao, Valor, DataDespesa, Categoria, ProjetoID)
+        VALUES 
+        (@Descricao, @Valor, @Data, @Categoria, @ProjetoID)";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@Descricao", d.Descricao);
+                cmd.Parameters.AddWithValue("@Valor", d.Valor);
+                cmd.Parameters.AddWithValue("@Data", d.DataDespesa);
+                cmd.Parameters.AddWithValue("@Categoria", d.Categoria);
+                cmd.Parameters.AddWithValue("@ProjetoID", d.ProjetoID);
+
+                conexao.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+    }    
 }

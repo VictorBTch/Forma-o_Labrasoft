@@ -18,7 +18,8 @@
             <a href="BolsistaExemplo.aspx">Início (Teste)</a> | 
             <a href="CadastroBolsista.aspx">Bolsistas</a> |
             <a href="CadastroCoordenador.aspx">Coordenadores</a> |
-            <a href="CadastroProjeto.aspx">Projetos</a>
+            <a href="CadastroProjeto.aspx">Projetos</a> |
+            <a href="CadastroDespesas.aspx">Despesas</a>
         </nav>
 
 

@@ -69,6 +69,21 @@
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
+            <asp:Repeater ID="rptPaginacao" runat="server" OnItemCommand="rptPaginacao_ItemCommand">
+                <ItemTemplate>
+                    <asp:LinkButton 
+                        runat="server"
+                        CommandName="MudarPagina"
+                        CommandArgument='<%# Container.DataItem %>'
+                        CssClass='<%# (int)Container.DataItem == PaginaAtual ? "btn btn-primary m-1" : "btn btn-light m-1" %>'>
+            
+                        <%# Container.DataItem %>
+                    </asp:LinkButton>
+                </ItemTemplate>
+            </asp:Repeater>>
+
+            <br />
+
             <div class="mt-4">
                 <asp:Panel ID="pnlDetalhes" runat="server" Visible="false" CssClass="card border-info shadow-lg animate__animated animate__fadeIn">
                     <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">

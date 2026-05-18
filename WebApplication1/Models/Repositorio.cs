@@ -306,6 +306,7 @@ namespace WebApplication1.Models
             B.Sexo
 
         FROM Projeto P
+
         INNER JOIN Coordenador C ON P.CoordenadorID = C.ID
         LEFT JOIN ProjetoBolsista PB ON PB.ProjetoID = P.ID
         LEFT JOIN Bolsista B ON B.ID = PB.BolsistaID
@@ -335,7 +336,8 @@ namespace WebApplication1.Models
                                 Nome = leitor["NomeCoordenador"].ToString(),
                                 Titulacao = leitor["Titulacao"].ToString()
                             },
-                            AlunosVinculados = new List<Bolsista>()
+                            AlunosVinculados = new List<Bolsista>(),
+                            
                         };
                     }
 
@@ -354,6 +356,42 @@ namespace WebApplication1.Models
             }
 
             return p;
+        }
+        public List<Despesas> ListarDespesasProjeto(int projetoID)
+        {
+            List<Despesas> lista = new List<Despesas>();
+
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        SELECT 
+            Descricao,
+            Valor,
+            DataDespesa,
+            Categoria
+        FROM Despesa
+        WHERE ProjetoID = @ProjetoID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+                cmd.Parameters.AddWithValue("@ProjetoID", projetoID);
+
+                conexao.Open();
+
+                SqlDataReader leitor = cmd.ExecuteReader();
+
+                while (leitor.Read())
+                {
+                    lista.Add(new Despesas
+                    {
+                        Descricao = leitor["Descricao"].ToString(),
+                        Valor = Convert.ToDecimal(leitor["Valor"]),
+                        DataDespesa = Convert.ToDateTime(leitor["DataDespesa"]),
+                        Categoria = leitor["Categoria"].ToString()
+                    });
+                }
+            }
+
+            return lista;
         }
         public void VincularBolsistaProjeto(int projetoID, int bolsistaID)
         {
@@ -423,6 +461,88 @@ namespace WebApplication1.Models
                 conexao.Open();
                 cmd.ExecuteNonQuery();
             }
+        }
+        public void ExcluirCoordenador(int id)
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = "DELETE FROM Coordenador WHERE ID = @ID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@ID", id);
+
+                conexao.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public void AtualizarCoordenador(Coordenador c)
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        UPDATE Coordenador
+        SET
+            Nome = @Nome,
+            CPF = @CPF,
+            Email = @Email,
+            Titulacao = @Titulacao,
+            AreaAtuacao = @AreaAtuacao
+        WHERE ID = @ID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@ID", c.ID);
+                cmd.Parameters.AddWithValue("@Nome", c.Nome);
+                cmd.Parameters.AddWithValue("@CPF", c.CPF);
+                cmd.Parameters.AddWithValue("@Email", c.Email);
+                cmd.Parameters.AddWithValue("@Titulacao", c.Titulacao);
+                cmd.Parameters.AddWithValue("@AreaAtuacao", c.AreaAtuacao);
+
+                conexao.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+        public Coordenador BuscarCoordPorID(int id)
+        {
+            Coordenador c = null;
+
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        SELECT 
+            ID,
+            Nome,
+            CPF,
+            Email,
+            Titulacao,
+            AreaAtuacao
+        FROM Coordenador
+        WHERE ID = @ID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@ID", id);
+
+                conexao.Open();
+
+                SqlDataReader leitor = cmd.ExecuteReader();
+
+                if (leitor.Read())
+                {
+                    c = new Coordenador
+                    {
+                        ID = Convert.ToInt32(leitor["ID"]),
+                        Nome = leitor["Nome"].ToString(),
+                        CPF = leitor["CPF"].ToString(),
+                        Email = leitor["Email"].ToString(),
+                        Titulacao = leitor["Titulacao"].ToString(),
+                        AreaAtuacao = leitor["AreaAtuacao"].ToString()
+                    };
+                }
+            }
+
+            return c;
         }
     }    
 }

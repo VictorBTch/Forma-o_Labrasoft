@@ -133,10 +133,41 @@
                                 </tbody>
                             </table>
                         </div>
-        
+                        
+                        <hr />
+
+                        <h6 class="text-muted text-uppercase small font-weight-bold mb-3">💸Despesas do projeto:</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Descrição</th>
+                                        <th>Valor</th>
+                                        <th>Data</th>
+                                        <th>Categoria</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <asp:Repeater ID="rptDespesas" runat="server">
+                                        <ItemTemplate>
+                                            <tr>
+                                                <td class="font-weight-bold"> <%# Eval("Descricao") %></td>
+                                                <td class="fw-bold text-success fs-4"><%# Eval("Valor") %></td>
+                                                <td><span class="badge badge-secondary"><%# Eval("DataDespesa", "{0:dd/MM/yyyy}") %></span></td>
+                                                <td><span class="badge badge-primary"><%# Eval("Categoria") %></span></td>
+                                            </tr>
+                                        </ItemTemplate>
+                                    </asp:Repeater>
+                                </tbody>
+                            </table>
+                        
+                        <asp:Label ID="lblNenhumaDespesa" runat="server" Text="Nenhuma despesa cadastrada."
+                            CssClass="text-muted" Visible="false"> </asp:Label>
+                            
                         <asp:Label ID="lblSemBolsistas" runat="server" Text="Nenhum bolsista vinculado a este projeto." 
                             CssClass="text-warning italic" Visible="false"></asp:Label>
                     </div>
+                   </div>
                 </asp:Panel>
             </div>
         </div>

@@ -107,7 +107,7 @@ namespace WebApplication1
 
                 // 🔥 agora usa o método com JOIN
                 var projeto = repo.DetalharProjetoPorID(idProjeto);
-
+                projeto.Despesas = repo.ListarDespesasProjeto(idProjeto);
                 // Dados básicos
                 litTituloDet.Text = projeto.Titulo;
                 lblCoordDet.Text = projeto.Responsavel?.Nome ?? "Não definido";
@@ -129,6 +129,21 @@ namespace WebApplication1
                     rptBolsistasDet.Visible = false;
                     lblSemBolsistas.Visible = true;
                 }
+                // DESPESAS
+                if (projeto.Despesas != null && projeto.Despesas.Count > 0)
+                {
+                    rptDespesas.DataSource = projeto.Despesas;
+                    rptDespesas.DataBind();
+
+                    rptDespesas.Visible = true;
+                    lblNenhumaDespesa.Visible = false;
+                }
+                else
+                {
+                    rptDespesas.Visible = false;
+                    lblNenhumaDespesa.Visible = true;
+                }
+
 
                 pnlDetalhes.Visible = true;
             }

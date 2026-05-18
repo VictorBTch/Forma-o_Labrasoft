@@ -186,6 +186,24 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Repeater rptBolsistasDet;
 
         /// <summary>
+        /// Controle rptDespesas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptDespesas;
+
+        /// <summary>
+        /// Controle lblNenhumaDespesa.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNenhumaDespesa;
+
+        /// <summary>
         /// Controle lblSemBolsistas.
         /// </summary>
         /// <remarks>

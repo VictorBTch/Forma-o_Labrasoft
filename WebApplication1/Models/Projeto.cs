@@ -23,6 +23,8 @@ namespace WebApplication1.Models
 
         public List<Bolsista> AlunosVinculados { get; set; }
 
+        public List<Despesas> Despesas {  get; set; }
+        
         public Projeto()
         {
             this.AlunosVinculados = new List<Bolsista>();

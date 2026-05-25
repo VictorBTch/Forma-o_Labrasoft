@@ -52,9 +52,11 @@ namespace WebApplication1
             var listaCoordenadores = repo.ListarCoordenadores();
             if (listaCoordenadores.Count > 0)
             {
+                gridCoordenadores.Visible = true;
                 gridCoordenadores.DataSource = listaCoordenadores;
                 gridCoordenadores.DataBind();
                 lblAviso.Visible = false;
+              
             }
             else
             {
@@ -96,14 +98,24 @@ namespace WebApplication1
         }
         protected void btnExcluirCoord_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(hdnCoordID.Value);
+            try
+            {
+                int id = Convert.ToInt32(hdnCoordID.Value);
 
-            repo.ExcluirCoordenador(id);
+                repo.ExcluirCoordenador(id);
 
-            gridCoordenadores.DataSource = repo.ListarCoordenadores();
-            gridCoordenadores.DataBind();
+                AtualizarGrid();
 
-            pnlEditarCoord.Visible = false;
+                pnlEditarCoord.Visible = false;
+
+                lblMensagem.Text = "Coordenador excluído com sucesso!";
+                lblMensagem.CssClass = "text-success";
+            }
+            catch (Exception)
+            {
+                lblMensagem.Text = "Este coordenador não pode ser excluído pois já pertence a um projeto.";
+                lblMensagem.CssClass = "alert alert-danger d-block";
+            }
         }
         protected void btnSalvarCoord_Click(object sender, EventArgs e)
         {
@@ -123,8 +135,7 @@ namespace WebApplication1
             repo.AtualizarCoordenador(c);
 
             // Atualiza grid
-            gridCoordenadores.DataSource = repo.ListarCoordenadores();
-            gridCoordenadores.DataBind();
+            AtualizarGrid();
 
             // Fecha painel
             pnlEditarCoord.Visible = false;
@@ -162,6 +173,9 @@ namespace WebApplication1
             txtAreaEdicao.Text = "";
 
             hdnCoordID.Value = "";
+
+            lblMensagem.Text = "";
+            lblMensagem.Visible = false;
         }
     }
 }

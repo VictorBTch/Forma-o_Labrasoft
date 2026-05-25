@@ -33,7 +33,7 @@ namespace WebApplication1
             ddlCoordenador.Items.Insert(0, new ListItem("Selecione um Coordenador...", ""));
 
             // Preenche Alunos
-            lstAlunos.DataSource = repo.ListarBolsistas();
+            lstAlunos.DataSource = repo.ListarBolsistasDisponiveis();
             lstAlunos.DataTextField = "Nome";
             lstAlunos.DataValueField = "ID";
             lstAlunos.DataBind();
@@ -105,6 +105,8 @@ namespace WebApplication1
             {
                 int idProjeto = Convert.ToInt32(e.CommandArgument);
 
+                hdnProjetoID.Value = idProjeto.ToString();
+                
                 // 🔥 agora usa o método com JOIN
                 var projeto = repo.DetalharProjetoPorID(idProjeto);
                 projeto.Despesas = repo.ListarDespesasProjeto(idProjeto);
@@ -184,6 +186,110 @@ namespace WebApplication1
         {
             get => ViewState["PaginaAtual"] != null ? (int)ViewState["PaginaAtual"] : 1;
             set => ViewState["PaginaAtual"] = value;
+        }
+        protected void btnEditarBolsistas_Click(object sender, EventArgs e)
+        {
+            int projetoID = Convert.ToInt32(hdnProjetoID.Value);
+
+            pnlDetalhes.Visible = false;
+            pnlEditarBolsistas.Visible = true;
+
+            var projeto = repo.DetalharProjetoPorID(projetoID);
+
+            // VINCULADOS
+            lstVinculados.DataSource =
+                projeto.AlunosVinculados;
+
+            lstVinculados.DataTextField = "Nome";
+            lstVinculados.DataValueField = "ID";
+
+            lstVinculados.DataBind();
+
+            // DISPONÍVEIS
+            lstDisponiveis.DataSource =
+                repo.ListarBolsistasDisponiveis();
+
+            lstDisponiveis.DataTextField = "Nome";
+            lstDisponiveis.DataValueField = "ID";
+
+            lstDisponiveis.DataBind();
+        }
+        protected void btnAdicionar_Click(object sender, EventArgs e)
+        {
+            int projetoID = Convert.ToInt32(hdnProjetoID.Value);
+
+            foreach (ListItem item in lstDisponiveis.Items)
+            {
+                if (item.Selected)
+                {
+                    repo.VincularBolsistaProjeto(
+                        projetoID,
+                        Convert.ToInt32(item.Value)
+                    );
+                }
+            }
+
+            CarregarDadosIniciais();
+
+            btnEditarBolsistas_Click(null, null);
+        }
+        protected void btnRemover_Click(object sender, EventArgs e)
+        {
+            int projetoID = Convert.ToInt32(hdnProjetoID.Value);
+
+            List<ListItem> mover = new List<ListItem>();
+
+            foreach (ListItem item in lstVinculados.Items)
+            {
+                if (item.Selected)
+                {
+                    repo.RemoverVinculoBolsistaProjeto(
+                        projetoID,
+                        Convert.ToInt32(item.Value)
+                    );
+
+                    mover.Add(item);
+                }
+            }
+
+            foreach (ListItem item in mover)
+            {
+                lstVinculados.Items.Remove(item);
+                item.Selected = false;
+                lstDisponiveis.Items.Add(item);
+            }
+        }
+        protected void btnCancelarEdicao_Click(object sender, EventArgs e)
+        {
+            pnlEditarBolsistas.Visible = false;
+            pnlDetalhes.Visible = true;
+        }
+        protected void btnSalvarBolsistas_Click(object sender, EventArgs e)
+        {
+            int projetoID = Convert.ToInt32(hdnProjetoID.Value);
+
+            // RECARREGA DETALHES
+            var atualizado = repo.DetalharProjetoPorID(projetoID);
+
+            rptBolsistasDet.DataSource = atualizado.AlunosVinculados;
+            rptBolsistasDet.DataBind();
+
+            // RECARREGA COMBO/LISTA PRINCIPAL
+            CarregarDadosIniciais();
+
+            // VOLTA PARA TELA DE DETALHES
+            pnlEditarBolsistas.Visible = false;
+            pnlDetalhes.Visible = true;
+        }
+        protected void btnAbaRemover_Click(object sender, EventArgs e)
+        {
+            pnlRemover.Visible = true;
+            pnlAdicionar.Visible = false;
+        }
+        protected void btnAbaAdicionar_Click(object sender, EventArgs e)
+        {
+            pnlRemover.Visible = false;
+            pnlAdicionar.Visible = true;
         }
     }
 }

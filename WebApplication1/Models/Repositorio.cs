@@ -440,6 +440,60 @@ namespace WebApplication1.Models
 
             return lista;
         }
+        public List<Bolsista> ListarBolsistasDisponiveis()
+        {
+            List<Bolsista> lista = new List<Bolsista>();
+
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        SELECT 
+        B.ID,
+        B.Nome
+        FROM Bolsista B
+        WHERE B.ID NOT IN
+        (
+            SELECT PB.BolsistaID
+            FROM ProjetoBolsista PB
+        )";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                conexao.Open();
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    lista.Add(new Bolsista
+                    {
+                        ID = Convert.ToInt32(reader["ID"]),
+                        Nome = reader["Nome"].ToString()
+                    });
+                }
+            }
+
+            return lista;
+        }
+        public void RemoverVinculoBolsistaProjeto(int projetoID,int bolsistaID)
+        {
+            using (SqlConnection conexao = new SqlConnection(sqlConexao))
+            {
+                string query = @"
+        DELETE FROM ProjetoBolsista
+        WHERE ProjetoID = @ProjetoID
+        AND BolsistaID = @BolsistaID";
+
+                SqlCommand cmd = new SqlCommand(query, conexao);
+
+                cmd.Parameters.AddWithValue("@ProjetoID", projetoID);
+                cmd.Parameters.AddWithValue("@BolsistaID", bolsistaID);
+
+                conexao.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public void InserirDespesa(Despesas d)
         {
             using (SqlConnection conexao = new SqlConnection(sqlConexao))
@@ -472,7 +526,7 @@ namespace WebApplication1.Models
 
                 cmd.Parameters.AddWithValue("@ID", id);
 
-                conexao.Open();
+                conexao.Open(); 
                 cmd.ExecuteNonQuery();
             }
         }

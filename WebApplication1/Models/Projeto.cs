@@ -7,20 +7,26 @@ namespace WebApplication1.Models
 {
     public class Projeto
     {
+        public int ID { get; set; }
+
         public string Titulo { get; set; }
         public string AreaConhecimento { get; set; }
 
-        // Atributos Financeiros
         public decimal VerbaAprovada { get; set; }
         public decimal ValorBolsaIndividual { get; set; }
 
-        // COMPOSIÇÃO (Relacionamentos)
-        public Coordenador Responsavel { get; set; } // 1 Coordenador
-        public List<Bolsista> AlunosVinculados { get; set; } // Vários Bolsistas
+        // 🔥 RELAÇÃO COM BANCO
+        public int CoordenadorID { get; set; }
 
+        // 🔥 OPCIONAL (uso em tela)
+        public Coordenador Responsavel { get; set; }
+
+        public List<Bolsista> AlunosVinculados { get; set; }
+
+        public List<Despesas> Despesas {  get; set; }
+        
         public Projeto()
         {
-            // OBRIGATÓRIO: Inicializa a lista para que possamos dar .Add() nela depois
             this.AlunosVinculados = new List<Bolsista>();
             this.VerbaAprovada = 0;
         }

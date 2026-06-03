@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.UI.WebControls;
 using WebApplication1.Models; // Garante que o C# ache sua classe
 
 namespace WebApplication1
 {
-    public partial class CadastroBolsista : System.Web.UI.Page
+    public partial class CadastroBolsista : BasePage
     {
+        private Repositorio repo = new Repositorio();
         protected void Page_Load(object sender, EventArgs e)
         {
             // Na primeira vez que a página carrega, podemos querer exibir a lista 
@@ -32,15 +34,15 @@ namespace WebApplication1
             try
             {
                 // 1. Instanciar e preencher o objeto (conforme você já fez)
-                Bolsista novo = new Bolsista();
-                novo.Nome = txtNome.Text;
-                novo.Matricula = txtMatricula.Text;
-                novo.CPF = txtCPF.Text;
-                novo.Sexo = ddlSexo.SelectedValue;
-                novo.DataNascimento = DateTime.Parse(txtDataNasc.Text);
+                Bolsista b = new Bolsista();
+                b.Nome = txtNome.Text;
+                b.Matricula = txtMatricula.Text;
+                b.CPF = txtCPF.Text;
+                b.Sexo = ddlSexo.SelectedValue;
+                b.DataNascimento = DateTime.Parse(txtDataNasc.Text);
 
                 //1.5 Lógica provisória para não cadastrar o mesmo usuário duas vezes
-                if (listaBolsistas.Any(b => b.CPF == txtCPF.Text))
+                if (Repositorio.ListaBolsistas.Any(c => b.CPF == txtCPF.Text))
                 {
                     lblMensagem.Text = "⚠️ Este bolsista já foi cadastrado!";
                     lblMensagem.CssClass = "alert alert-warning d-block";
@@ -50,7 +52,7 @@ namespace WebApplication1
                 }
 
                 // 2. ADICIONAR NA LISTA ESTÁTICA
-                Repositorio.ListaBolsistas.Add(novo);
+                repo.InserirBolsista(b);
 
                 // 3. Limpar os campos para o próximo cadastro
                 LimparCampos();
@@ -89,7 +91,7 @@ namespace WebApplication1
 
         private void AtualizarGrid()
         {
-            var listaBolsistas = Repositorio.ListaBolsistas;
+            var listaBolsistas = repo.ListarBolsistas();
             if (listaBolsistas.Count > 0)
             {
                 gridBolsistas.DataSource = listaBolsistas;
@@ -111,28 +113,37 @@ namespace WebApplication1
             }
         }
 
-        // 1. FILTRO: Mostra apenas quem tem Sexo == "F"
-        protected void btnFiltrarMulheres_Click(object sender, EventArgs e)
+        protected void FiltrarSexo_Click(object sender, EventArgs e)
         {
-            var listaBolsistas = Repositorio.ListaBolsistas;
-            var resultado = listaBolsistas.Where(x => x.Sexo == "F").ToList();
+            var btn = (Button)sender;
+            string sexo = btn.CommandArgument;
 
-            gridBolsistas.DataSource = resultado;
+            var lista = repo.FiltrarBolsistasPorSexo(sexo);
+            lblMensagem.Visible = false;
+
+            if (lista.Count == 0)
+            {
+                lblSemResultados.Visible = true;
+                gridBolsistas.DataSource = null;
+            }
+            else
+            {
+                lblSemResultados.Visible = false;
+                gridBolsistas.DataSource = lista;
+            }
+
             gridBolsistas.DataBind();
-
-            lblMensagem.Text = $"Exibindo {resultado.Count} mulheres encontradas.";
-            lblMensagem.CssClass = "alert alert-info d-block";
         }
 
         // 2. ORDENAÇÃO: Organiza a lista por nome
         protected void btnOrdemAlfabetica_Click(object sender, EventArgs e)
         {
-            var listaBolsistas = Repositorio.ListaBolsistas;
-            var resultado = listaBolsistas.OrderBy(x => x.Nome).ToList();
+            var lista = repo.ListarBolsistasOrdenadoPorNome();
 
-            gridBolsistas.DataSource = resultado;
+            gridBolsistas.DataSource = lista;
             gridBolsistas.DataBind();
 
+            lblSemResultados.Visible=false;
             lblMensagem.Text = "Lista organizada por ordem alfabética.";
             lblMensagem.CssClass = "alert alert-secondary d-block";
         }
@@ -140,9 +151,30 @@ namespace WebApplication1
         // 3. RESET: Volta a exibir a lista original completa
         protected void btnVerTodos_Click(object sender, EventArgs e)
         {
+            lblMensagem.Visible=false;
             AtualizarGrid();
-            lblMensagem.Text = "Exibindo lista completa.";
-            lblMensagem.CssClass = "alert alert-light d-block border";
-        }        
-    }
+            lblSemResultados.Visible = false;
+        }
+        
+        protected void gridBolsistas_RowCreated(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                for (int i = 0; i < e.Row.Cells.Count; i++)
+                {
+                    if (e.Row.Cells[i].Text.Contains("ProjetoID"))
+                    {
+                        e.Row.Cells[i].Visible = false;
+                        ViewState["ProjetoIDIndex"] = i;
+                    }
+                }
+            }
+
+            if (e.Row.RowType == DataControlRowType.DataRow && ViewState["ProjetoIDIndex"] != null)
+            {
+                int index = (int)ViewState["ProjetoIDIndex"];
+                e.Row.Cells[index].Visible = false;
+            }
+        }
+    } 
 }

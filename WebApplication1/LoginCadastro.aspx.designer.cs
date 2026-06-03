@@ -11,152 +11,116 @@ namespace WebApplication1
 {
 
 
-    public partial class CadastroBolsista
+    public partial class LoginCadastro
     {
 
         /// <summary>
-        /// Controle txtNome.
+        /// Controle mvAcesso.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNome;
+        protected global::System.Web.UI.WebControls.MultiView mvAcesso;
 
         /// <summary>
-        /// Controle txtMatricula.
+        /// Controle vwLogin.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMatricula;
+        protected global::System.Web.UI.WebControls.View vwLogin;
 
         /// <summary>
-        /// Controle txtCPF.
+        /// Controle txtEmailLogin.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtCPF;
+        protected global::System.Web.UI.WebControls.TextBox txtEmailLogin;
 
         /// <summary>
-        /// Controle txtDataNasc.
+        /// Controle txtSenhaLogin.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtDataNasc;
+        protected global::System.Web.UI.WebControls.TextBox txtSenhaLogin;
 
         /// <summary>
-        /// Controle ddlSexo.
+        /// Controle btnLogin.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlSexo;
+        protected global::System.Web.UI.WebControls.Button btnLogin;
 
         /// <summary>
-        /// Controle btnSalvar.
+        /// Controle btnIrCadastro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSalvar;
+        protected global::System.Web.UI.WebControls.Button btnIrCadastro;
 
         /// <summary>
-        /// Controle btnLimpar.
+        /// Controle vwCadastro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnLimpar;
+        protected global::System.Web.UI.WebControls.View vwCadastro;
 
         /// <summary>
-        /// Controle pnlFiltros.
+        /// Controle txtEmailCadastro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlFiltros;
+        protected global::System.Web.UI.WebControls.TextBox txtEmailCadastro;
 
         /// <summary>
-        /// Controle btnMasculino.
+        /// Controle txtSenhaCadastro.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnMasculino;
+        protected global::System.Web.UI.WebControls.TextBox txtSenhaCadastro;
 
         /// <summary>
-        /// Controle btnFeminino.
+        /// Controle txtConfirmarSenha.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnFeminino;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmarSenha;
 
         /// <summary>
-        /// Controle btnOutro.
+        /// Controle btnCadastrar.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOutro;
+        protected global::System.Web.UI.WebControls.Button btnCadastrar;
 
         /// <summary>
-        /// Controle btnOrdemAlfabetica.
+        /// Controle btnVoltarLogin.
         /// </summary>
         /// <remarks>
         /// Campo gerado automaticamente.
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOrdemAlfabetica;
-
-        /// <summary>
-        /// Controle btnVerTodos.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVerTodos;
-
-        /// <summary>
-        /// Controle gridBolsistas.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridBolsistas;
-
-        /// <summary>
-        /// Controle lblSemResultados.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblSemResultados;
-
-        /// <summary>
-        /// Controle lblAvisoGrid.
-        /// </summary>
-        /// <remarks>
-        /// Campo gerado automaticamente.
-        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblAvisoGrid;
+        protected global::System.Web.UI.WebControls.Button btnVoltarLogin;
 
         /// <summary>
         /// Controle lblMensagem.

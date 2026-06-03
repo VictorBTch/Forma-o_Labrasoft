@@ -96,6 +96,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.GridView gridProjetos;
 
         /// <summary>
+        /// Controle rptPaginacao.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptPaginacao;
+
+        /// <summary>
         /// Controle pnlDetalhes.
         /// </summary>
         /// <remarks>
@@ -103,6 +112,15 @@ namespace WebApplication1
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlDetalhes;
+
+        /// <summary>
+        /// Controle hdnProjetoID.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnProjetoID;
 
         /// <summary>
         /// Controle litTituloDet.
@@ -150,6 +168,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label lblVerbaDet;
 
         /// <summary>
+        /// Controle lblVerbaTotal.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblVerbaTotal;
+
+        /// <summary>
         /// Controle lblBolsaDet.
         /// </summary>
         /// <remarks>
@@ -168,6 +195,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Label lblAreaDet;
 
         /// <summary>
+        /// Controle btnEditarBolsistas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEditarBolsistas;
+
+        /// <summary>
         /// Controle rptBolsistasDet.
         /// </summary>
         /// <remarks>
@@ -177,6 +213,24 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Repeater rptBolsistasDet;
 
         /// <summary>
+        /// Controle rptDespesas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptDespesas;
+
+        /// <summary>
+        /// Controle lblNenhumaDespesa.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblNenhumaDespesa;
+
+        /// <summary>
         /// Controle lblSemBolsistas.
         /// </summary>
         /// <remarks>
@@ -184,5 +238,104 @@ namespace WebApplication1
         /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSemBolsistas;
+
+        /// <summary>
+        /// Controle pnlEditarBolsistas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlEditarBolsistas;
+
+        /// <summary>
+        /// Controle btnAbaRemover.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAbaRemover;
+
+        /// <summary>
+        /// Controle btnAbaAdicionar.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAbaAdicionar;
+
+        /// <summary>
+        /// Controle pnlRemover.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlRemover;
+
+        /// <summary>
+        /// Controle lstVinculados.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lstVinculados;
+
+        /// <summary>
+        /// Controle btnRemover.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnRemover;
+
+        /// <summary>
+        /// Controle pnlAdicionar.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlAdicionar;
+
+        /// <summary>
+        /// Controle lstDisponiveis.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lstDisponiveis;
+
+        /// <summary>
+        /// Controle btnAdicionar.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAdicionar;
+
+        /// <summary>
+        /// Controle btnSalvarBolsistas.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSalvarBolsistas;
+
+        /// <summary>
+        /// Controle btnCancelarEdicao.
+        /// </summary>
+        /// <remarks>
+        /// Campo gerado automaticamente.
+        /// Para modificar, mova a declaração de campo do arquivo de designer a um arquivo code-behind.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelarEdicao;
     }
 }

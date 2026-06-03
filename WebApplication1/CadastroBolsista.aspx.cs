@@ -6,7 +6,7 @@ using WebApplication1.Models; // Garante que o C# ache sua classe
 
 namespace WebApplication1
 {
-    public partial class CadastroBolsista : System.Web.UI.Page
+    public partial class CadastroBolsista : BasePage
     {
         private Repositorio repo = new Repositorio();
         protected void Page_Load(object sender, EventArgs e)

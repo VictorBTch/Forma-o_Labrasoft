@@ -5,12 +5,15 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
-    public partial class CadastroDespesas : System.Web.UI.Page
+    public partial class CadastroDespesas : BasePage
     {
         private Repositorio repo = new Repositorio();
+        
+        private EmailService emailService = new EmailService();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -28,7 +31,7 @@ namespace WebApplication1
             ddlProjetos.Items.Insert(0, new ListItem("Selecione um Projeto...", ""));
 
         }
-        protected void btnSalvarDespesa_Click(object sender, EventArgs e)
+        protected async void btnSalvarDespesa_Click(object sender, EventArgs e)
         {
             try
             {
@@ -38,6 +41,8 @@ namespace WebApplication1
                 d.DataDespesa = DateTime.Parse(txtDataDespesa.Text);
                 decimal Valor;
                 decimal.TryParse(txtValor.Text, out Valor);
+                d.ProjetoID = Convert.ToInt32(ddlProjetos.SelectedValue);
+                string coordenador = repo.descobrirCoordenador(d.ProjetoID);
 
                 d.Valor = Valor;
 
@@ -45,11 +50,19 @@ namespace WebApplication1
                 d.Categoria = ddlCategoria.SelectedValue;
 
                 repo.InserirDespesa(d);
-
+                bool confirmarEmail = await emailService.EnviarNotificacaoDespesa("labrasoft.ifba@gmail.com", coordenador, d.Descricao, d.Valor, d.DataDespesa);
+                if (confirmarEmail)
+                {
+                    lblMensagem.Text = "Despesa salva e Email enviado com sucesso!";
+                    lblMensagem.CssClass = "alert alert-success d-block";
+                }
+                else
+                {
+                    lblMensagem.Text = "Despesa salva, contudo Email não foi enviado.";
+                    lblMensagem.CssClass = "alert text-danger d-block";
+                }
+                    
                 LimparCampos();
-
-                lblMensagem.Text = "Despesa salva!";
-                lblMensagem.CssClass = "alert alert-success d-block";
             }
             catch (Exception ex)
             {

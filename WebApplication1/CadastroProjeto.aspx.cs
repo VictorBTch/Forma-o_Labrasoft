@@ -5,14 +5,16 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
-    public partial class CadastroProjeto : System.Web.UI.Page
+    public partial class CadastroProjeto : BasePage
     {
         private Repositorio repo = new Repositorio();
         
         private int tamanhoPagina = 6;
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -110,6 +112,8 @@ namespace WebApplication1
                 // 🔥 agora usa o método com JOIN
                 var projeto = repo.DetalharProjetoPorID(idProjeto);
                 projeto.Despesas = repo.ListarDespesasProjeto(idProjeto);
+                decimal totalDespesas = projeto.Despesas.Sum(d => d.Valor);
+                decimal verbaAtual = projeto.VerbaAprovada - totalDespesas;
                 // Dados básicos
                 litTituloDet.Text = projeto.Titulo;
                 lblCoordDet.Text = projeto.Responsavel?.Nome ?? "Não definido";
@@ -117,7 +121,7 @@ namespace WebApplication1
                 lblVerbaDet.Text = projeto.VerbaAprovada.ToString("C");
                 lblBolsaDet.Text = projeto.ValorBolsaIndividual.ToString("C");
                 lblAreaDet.Text = projeto.AreaConhecimento;
-
+                lblVerbaTotal.Text = verbaAtual.ToString("C");
                 // Lista Bolsistas
                 if (projeto.AlunosVinculados != null && projeto.AlunosVinculados.Count > 0)
                 {

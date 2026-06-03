@@ -9,24 +9,132 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <header>
-            <h1>Gestão de Bolsistas</h1>
-            <hr />
-        </header>
 
-        <nav style="background: #eee; padding: 10px; margin-bottom: 20px;">
-            <a href="BolsistaExemplo.aspx">Início (Teste)</a> | 
-            <a href="CadastroBolsista.aspx">Bolsistas</a> |
-            <a href="CadastroCoordenador.aspx">Coordenadores</a> |
-            <a href="CadastroProjeto.aspx">Projetos</a> |
-            <a href="CadastroDespesas.aspx">Despesas</a>
-        </nav>
+    <div class="container-fluid">
+        <div class="row min-vh-100">
 
+            <!-- MENU LATERAL -->
+            <div class="col-md-2 bg-dark text-white d-flex flex-column p-0">
 
-        <div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-            </asp:ContentPlaceHolder>
+                <div class="p-4 border-bottom">
+                    <h3 class="font-weight-bold mb-1">
+                        🎓 Gestão de Bolsistas
+                    </h3>
+                    <small class="text-light">
+                        Sistema de Extensão
+                    </small>
+                </div>
+
+                <% if (EstaLogado) { %>
+
+                <div class="nav flex-column nav-pills p-3">
+
+                    <a id="lnkBolsistas"
+                        runat="server"
+                        href="CadastroBolsista.aspx"
+                        class="nav-link text-white mb-2">
+                        👨‍🎓 Bolsistas
+                    </a>
+
+                    <a id="lnkProjetos"
+                        runat="server"
+                        href="CadastroProjeto.aspx"
+                        class="nav-link text-white mb-2">
+                        📁 Projetos
+                    </a>
+
+                    <% if (EhAdmin) { %>
+
+                    <a id="lnkCoordenadores"
+                        runat="server"
+                        href="CadastroCoordenador.aspx"
+                        class="nav-link text-white mb-2">
+                        👨‍🏫 Coordenadores
+                    </a>
+
+                    <a id="lnkDespesas"
+                        runat="server"
+                        href="CadastroDespesas.aspx"
+                        class="nav-link text-white mb-2">
+                        💰 Despesas
+                    </a>
+
+                    <% } %>
+
+                </div>
+
+                <div class="mt-auto p-3 border-top">
+
+                    <div class="card bg-secondary border-0">
+                        <div class="card-body p-2">
+
+                            <small class="text-white-50">
+                                Usuário logado
+                            </small>
+
+                            <div class="text-white mb-2">
+                                <%= NomeUsuario %>
+                            </div>
+
+                            <asp:LinkButton
+                                ID="logout"
+                                runat="server"
+                                CssClass="btn btn-danger btn-block btn-sm"
+                                OnClick="btn_logout">
+                                Sair
+                            </asp:LinkButton>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <% } else { %>
+
+                <div class="p-3">
+                    <a class="btn btn-primary btn-block"
+                       href="LoginCadastro.aspx">
+                        Login / Cadastro
+                    </a>
+                </div>
+
+                <% } %>
+
+            </div>
+
+            <!-- CONTEÚDO -->
+            <div class="col-md-10 bg-light">
+
+                <div class="card shadow-sm border-0 mt-3 mb-4">
+
+                    <div class="card-body">
+
+                       <div class="card-body">
+
+                        <h1 class="display-4 font-weight-bold text-primary mb-1">
+                            <%= TituloPagina %>
+                        </h1>
+
+                        <p class="lead text-muted mb-0">
+                            <%= SubtituloPagina %>
+                        </p>
+
+                    </div>
+
+                    </div>
+
+                </div>
+
+                <asp:ContentPlaceHolder
+                    ID="ContentPlaceHolder1"
+                    runat="server">
+                </asp:ContentPlaceHolder>
+
+            </div>
+
         </div>
-    </form>
+    </div>
+
+</form>
 </body>
 </html>

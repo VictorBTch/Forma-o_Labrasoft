@@ -2,3 +2,5 @@
 [Bb]in/
 [Oo]bj/
 *.user
+WebApplication1/App_Data/google_secret.json
+WebApplication1/App_Data/Tokens/

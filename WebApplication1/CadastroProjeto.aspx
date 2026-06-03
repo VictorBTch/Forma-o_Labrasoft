@@ -101,6 +101,7 @@
                             <div class="col-md-4">
                                 <h6 class="text-muted text-uppercase small font-weight-bold">Finanças</h6>
                                 <p class="mb-1"><strong>Verba Total:</strong> <asp:Label ID="lblVerbaDet" runat="server" CssClass="text-success font-weight-bold" /></p>
+                                <p class="mb-1"><strong>Verba Atual:</strong> <asp:Label ID="lblVerbaTotal" runat="server" CssClass="text-primary font-weight-bold" /></p>
                                 <p><strong>Bolsa Aluno:</strong> <asp:Label ID="lblBolsaDet" runat="server" /></p>
                             </div>
                             <div class="col-md-4">

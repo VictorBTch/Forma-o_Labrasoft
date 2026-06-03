@@ -6,7 +6,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1
 {
-    public partial class CadastroCoordenador : System.Web.UI.Page
+    public partial class CadastroCoordenador : BasePage
     {
         private Repositorio repo = new Repositorio();
         // Lista estática para manter os dados em memória durante a execução
